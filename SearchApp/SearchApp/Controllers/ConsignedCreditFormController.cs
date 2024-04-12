@@ -22,6 +22,16 @@ public class ConsignedCreditFormController: Controller
 
     public IActionResult Register(ConsignedCreditFormViewModel viewModel)
     {
-        return View();
+        try
+        {
+            _appService.Register(viewModel);
+            return View("Result");
+        }
+        catch (Exception ex)
+        {
+            return View("Result", ex.Message);
+            throw;
+        }
+        
     }
 }

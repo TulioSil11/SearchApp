@@ -4,6 +4,6 @@ namespace SearchApp.Interfaces.Services;
 
 public interface IConsignedCreditFormService
 {
-    Task<List<QuestionViewModel>> GetQuestions();
+    Task<IEnumerable<QuestionViewModel>> GetQuestions();
     void Register(ConsignedCreditFormViewModel viewModel);
 }
