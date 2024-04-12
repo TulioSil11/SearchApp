@@ -1,0 +1,59 @@
+﻿@using SearchApp.ViewModels;
+@model ConsignedCreditFormViewModel;
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Formulario de Crédito Consignado</h1>
+
+<hr />
+
+@using (Html.BeginForm("Register", "ConsignedCreditForm", FormMethod.Post))
+{
+    <div class="form-group">
+        <label asp-for="NameOfUser" class="control-label"></label>
+        <input asp-for="NameOfUser" class="form-control" />
+        <span asp-validation-for="NameOfUser" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CPF" class="control-label"></label>
+        <input asp-for="CPF" class="form-control" />
+        <span asp-validation-for="CPF" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="Phone" class="control-label"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    for (int i = 0; i < Model.Questions.Count; i++)
+    {
+        <div class="question-@Model.Questions[i].Id">
+            <h3>@Model.Questions[i].Description</h3>
+            @Html.HiddenFor(m => m.Questions[i].Id)
+            @Html.HiddenFor(m => m.Questions[i].Description)
+            <ul>
+                @for (int j = 0; j < Model.Questions[i].QuestionOptions.Count; j++)
+                {
+                    <li>
+                        @Html.HiddenFor(m => m.Questions[i].QuestionOptions[j].Id)
+                        @Html.HiddenFor(m => m.Questions[i].QuestionOptions[j].Description)
+                        @Html.CheckBoxFor(m => m.Questions[i].QuestionOptions[j].IsSelected)
+                        <label>@Model.Questions[i].QuestionOptions[j].Description</label>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    <input type="submit" value="Register" />
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
