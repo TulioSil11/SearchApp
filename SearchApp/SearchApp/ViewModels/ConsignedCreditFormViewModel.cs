@@ -11,7 +11,7 @@ public class ConsignedCreditFormViewModel
     public string CPF { get; set; }
     [Required(ErrorMessage = "Phone is required!")]
     public string Phone { get; set; }
-    public List<QuestionViewModel> Questions { get; set; }
+    public IEnumerable<QuestionViewModel> Questions { get; set; }
 
     public (bool, string) IsValid()
     {
