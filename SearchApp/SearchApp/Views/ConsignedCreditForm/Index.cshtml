@@ -1,4 +1,4 @@
-﻿@using SearchApp.ViewModels;
+﻿@using Service.ViewModels;
 @model ConsignedCreditFormViewModel;
 
 @{
@@ -37,15 +37,26 @@
             @Html.HiddenFor(m => m.Questions[i].Id)
             @Html.HiddenFor(m => m.Questions[i].Description)
             <ul>
-                @for (int j = 0; j < Model.Questions[i].QuestionOptions.Count; j++)
-                {
-                    <li>
-                        @Html.HiddenFor(m => m.Questions[i].QuestionOptions[j].Id)
-                        @Html.HiddenFor(m => m.Questions[i].QuestionOptions[j].Description)
-                        @Html.CheckBoxFor(m => m.Questions[i].QuestionOptions[j].IsSelected)
-                        <label>@Model.Questions[i].QuestionOptions[j].Description</label>
-                    </li>
+                @{
+                    Model.Questions[i].QuestionOptions = Model.Questions[i].QuestionOptions.OrderBy(x => x.Option).ToList();
                 }
+                <div id="@Model.Questions[i].Id">
+                    @for (int j = 0; j < Model.Questions[i].QuestionOptions.Count; j++)
+                    {
+                        <li style="list-style-type: none">
+                                @Html.HiddenFor(m => m.Questions[i].QuestionOptions[j].Id)
+                                @Html.HiddenFor(m => m.Questions[i].QuestionOptions[j].Description)
+                                @Html.CheckBoxFor(m => m.Questions[i].QuestionOptions[j].IsSelected,
+                                         new
+                                         {
+                                             id = $"{Model.Questions[i].QuestionOptions[j].Id}",
+                                             onchange = $"uncheckOthers('{Model.Questions[i].Id.ToString()}', this)"
+                                         })
+                            <label>@Model.Questions[i].QuestionOptions[j].Description</label>
+                        </li>
+                    }
+                </div>
+                
             </ul>
         </div>
     }
@@ -56,4 +67,18 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        function uncheckOthers(listId, checkboxSelected){
+            var listCheck = document.getElementById(listId);
+            var checkboxes = listCheck.querySelectorAll('input[type="checkbox"]');
+
+            console.log(listCheck)
+            checkboxes.forEach(function (cb) {
+                if (cb.id !== checkboxSelected.id) {
+                    cb.checked = false;
+                }
+            });
+        }
+    </script>
 }

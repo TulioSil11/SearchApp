@@ -1,0 +1,11 @@
+﻿@model string;
+
+@if (string.IsNullOrEmpty(Model))
+{
+    <h1>Formulario salvo com sucesso!</h1>
+}
+else
+{
+    <h1>Ocorreu algum erro ao enviar o formulario!</h1>
+    <h2>Erro: @Model</h2>
+}

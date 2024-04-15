@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SearchApp.Interfaces.Services;
-using SearchApp.ViewModels;
+using Service.Interfaces.Services;
+using Service.ViewModels;
 
 namespace SearchApp.Controllers;
 
@@ -16,7 +16,7 @@ public class ConsignedCreditFormController: Controller
 
     public async Task<IActionResult> Index()
     {       
-        var questions = await _appService.GetQuestions();
+        var questions = (await _appService.GetQuestions()).ToList();
         return View(new ConsignedCreditFormViewModel() { Questions = questions});
     }
 
